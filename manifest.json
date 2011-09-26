@@ -1,0 +1,18 @@
+{
+  "icons": {
+      "128": "google_plus_notifications_1.png"
+  },
+  "name": "Google Plus Share Button",
+  "version": "1",
+  "description": "Share url of current tab on Google+",
+  "background_page": "background.html",
+  "permissions": [
+      "tabs",
+      "http://*/*",
+      "https://*/*"
+  ],
+  "browser_action": {
+      "name": "Share current page on Google+",
+      "default_icon": "google_plus_notifications_2.png"
+  }
+}

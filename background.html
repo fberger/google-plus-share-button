@@ -1,0 +1,57 @@
+<html>
+<script>
+var debug = true;
+function log() {
+    if (debug) {
+	console.log.apply(console, arguments);
+    }
+}
+
+function codeToString(f) {
+    args = []
+    log(arguments);
+    for (var i = 1; i < arguments.length; ++i) {
+	args.push(JSON.stringify(arguments[i]));
+    }
+    return "(" + f.toString() + ")(" + args.join(",") + ");";
+}
+
+function shareUrl(url) {
+    log("url", url);
+    var preBox = document.getElementsByClassName("f-xe")[0];
+    log("preBox", preBox);
+    var evt = preBox.ownerDocument.createEvent('MouseEvents');
+    evt.initMouseEvent('click', true, true,
+		       preBox.ownerDocument.defaultView, 1, 0, 0, 0, 0, false,
+		       false, false, false, 0, null);
+    preBox.dispatchEvent(evt);
+    var share = function(trial) {
+	log("looking for sharebox");
+	var shareBox = document.getElementsByClassName("editable")[0];
+	if (shareBox != undefined) {
+	    log("shareBox", shareBox);
+	    shareBox.textContent = url;
+	} else if (trial < 4) {
+	    log("shareBox undefined, retry");
+	    setTimeout(function() { share(trial + 1); }, 200);
+	} else {
+	    log("tried 4 times, giving up");
+	}
+    }
+    setTimeout(function() { share(1); }, 100);
+}
+
+// Called when the user clicks on the browser action.
+chrome.browserAction.onClicked.addListener(function(tab) {
+    var tabUrl = tab.url;
+    chrome.tabs.create({
+        "url": "https://plus.google.com/",
+        "selected": true,
+    }, function (newTab) {
+        chrome.tabs.executeScript(newTab.id, {
+            code: codeToString(shareUrl, tabUrl)
+        });
+    });
+});
+</script>
+</html>
