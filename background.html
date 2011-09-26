@@ -1,6 +1,6 @@
 <html>
 <script>
-var debug = true;
+var debug = false;
 function log() {
     if (debug) {
 	console.log.apply(console, arguments);
@@ -17,6 +17,12 @@ function codeToString(f) {
 }
 
 function shareUrl(url) {
+    var debug = false;
+    function log() {
+	if (debug) {
+	    console.log.apply(console, arguments);
+	}
+    }
     log("url", url);
     var preBox = document.getElementsByClassName("f-xe")[0];
     log("preBox", preBox);
