@@ -8,7 +8,7 @@ function log() {
 }
 
 function codeToString(f) {
-    args = []
+    args = [];
     log(arguments);
     for (var i = 1; i < arguments.length; ++i) {
 	args.push(JSON.stringify(arguments[i]));
